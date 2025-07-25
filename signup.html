@@ -2,244 +2,337 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>2025 서울국제유소년대회 참가신청서</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --blue: #1769ff;
+      --light-blue: #f4f8ff;
+      --bg: #f8fbfd;
+      --shadow: 0 4px 24px #1769ff12;
+      --radius: 22px;
+      --accent: #14a25c;
+      --danger: #ff4444;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
       font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-      background: #f8fbfd;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
+      background: var(--bg);
       color: #222;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin: 2.2rem 1rem;
+      padding: 2.5rem 2.3rem 2.1rem 2.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      position: relative;
+      transition: box-shadow 0.22s;
     }
     h1 {
-      text-align: center;
-      color: #1769ff;
-      font-size: 2rem;
+      color: var(--blue);
+      font-size: 2.1rem;
       font-weight: 700;
-      margin-bottom: 2rem;
+      margin: 0 0 2.1rem 0;
+      text-align: left;
+      letter-spacing: -1.4px;
     }
     label {
-      display: block;
-      margin: 1.5rem 0 0.3rem;
       font-weight: 600;
+      margin-top: 1.3rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.07rem;
+      letter-spacing: -0.8px;
     }
     input, select {
-      padding: 0.7rem 1rem;
-      border: 1.5px solid #e3e8f0;
-      border-radius: 12px;
-      font-size: 1rem;
-      background: #fff;
-      transition: border 0.2s;
-      box-sizing: border-box;
+      width: 100%;
+      font-size: 1.07rem;
+      background: var(--light-blue);
+      border: 1.6px solid #e3e8f0;
+      border-radius: 13px;
+      padding: 0.82rem 1.1rem;
+      margin-bottom: 0.1rem;
       outline: none;
+      transition: border 0.16s, background 0.18s;
+      box-sizing: border-box;
     }
     input:focus, select:focus {
-      border-color: #1769ff;
-      background: #f4f8ff;
+      border-color: var(--blue);
+      background: #f2f6fd;
     }
-    button {
-      margin-top: 2rem;
-      padding: 0.9rem 0;
-      width: 100%;
-      font-size: 1.1rem;
-      font-weight: 700;
-      background-color: #1769ff;
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px #1769ff20;
-      letter-spacing: 0.1em;
+    select { min-width: 80px; }
+    .input-error {
+      border: 2px solid var(--danger) !important;
+      background: #fff2f2 !important;
     }
-    button:hover {
-      background-color: #1253c8;
-    }
-    .success {
-      margin-top: 1.5rem;
-      color: #14a25c;
-      font-size: 1.1rem;
-      text-align: center;
+    .players-table-wrapper {
+      margin-top: 1.1rem;
+      overflow-x: auto;
+      border-radius: 13px;
+      box-shadow: 0 1px 8px #0e255018;
+      background: #fafdff;
     }
     table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      margin-top: 1rem;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 1px 10px #0e25502a;
-      overflow: hidden;
+      background: none;
+      min-width: 450px;
+      font-size: 0.99rem;
+      margin: 0;
     }
     th, td {
-      border-bottom: 1px solid #e3e8f0;
-      padding: 0.4rem 0.3rem;
       text-align: center;
-      font-size: 0.97rem;
+      padding: 0.32rem 0.18rem;
+      border-bottom: 1px solid #f1f3f5;
+      font-weight: 500;
     }
     th {
-      background-color: #f4f8ff;
-      color: #1769ff;
+      background: var(--light-blue);
+      color: var(--blue);
       font-weight: 700;
-      border-bottom: 2.5px solid #1769ff50;
+      font-size: 1.01rem;
+      border-bottom: 2px solid #e3e8f0;
+      letter-spacing: -0.8px;
     }
     tr:last-child td { border-bottom: none; }
-    td:first-child, th:first-child {
-      width: 44px; min-width: 44px;
-    }
-    td:nth-child(2), th:nth-child(2) {
-      width: 19%;
-    }
-    td:nth-child(3), th:nth-child(3) {
-      width: 21%;
-    }
-    td:nth-child(4), th:nth-child(4) {
-      width: 14%;
-    }
-    td:nth-child(5), th:nth-child(5) {
-      width: 15%;
-    }
-    input[type='date'] {
-      min-width: 105px;
-    }
-    input[type='number'] {
-      min-width: 50px;
-      text-align: center;
-    }
-    select {
-      min-width: 70px;
-      background: #f7faff;
-    }
+    input[type='date'] { min-width: 110px; }
+    input[type='number'] { min-width: 60px; text-align: center; }
+    select { background: #fafdff; }
     .notice {
-      margin-top: 2rem;
-      font-size: 0.96rem;
+      margin: 2.2rem 0 0.3rem 0;
+      font-size: 1.01rem;
       color: #1556af;
-      text-align: center;
       background: #e6f1fe;
-      border-radius: 10px;
-      padding: 1rem 0.5rem;
+      border-radius: 9px;
+      padding: 0.95rem 0.4rem;
+      text-align: center;
+      line-height: 1.6;
+      letter-spacing: -0.4px;
     }
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 2.1rem;
+      padding: 1rem 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 13px;
+      cursor: pointer;
+      box-shadow: 0 3px 14px #1769ff24;
+      letter-spacing: 0.06em;
+      transition: background 0.15s;
+    }
+    button[type="submit"]:hover {
+      background: #1555c7;
+    }
+    .success, .error-message {
+      margin-top: 1.1rem;
+      font-size: 1.08rem;
+      text-align: center;
+      font-weight: 500;
+      transition: color 0.18s;
+    }
+    .success { color: var(--accent); }
+    .error-message { color: var(--danger); }
     .admin-link {
       text-align: right;
-      margin-top: 2rem;
+      margin-top: 2.2rem;
+      font-size: 1.04rem;
+      font-weight: 500;
     }
     .admin-link a {
-      color: #1769ff;
+      color: var(--blue);
       text-decoration: underline;
-      font-size: 1rem;
-      font-weight: 500;
+      transition: color 0.13s;
+    }
+    .admin-link a:hover {
+      color: #0b41a8;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 1.1rem 0.5rem 1.2rem 0.5rem; }
+      h1 { font-size: 1.32rem; margin-bottom: 1.2rem; }
+      .notice { font-size: 0.95rem; }
+      table, th, td { font-size: 0.93rem; }
     }
   </style>
 </head>
 <body>
-  <h1>2025 서울국제유소년대회 참가신청서</h1>
-  <form id="signupForm">
-    <label for="division">종별</label>
-    <select id="division" name="division" required>
-      <option value="">선택</option>
-      <option value="U12B">U12B (남)</option>
-      <option value="U14B">U14B (남)</option>
-      <option value="U14G">U14G (여)</option>
-      <option value="U16B">U16B (남)</option>
-      <option value="U16G">U16G (여)</option>
-    </select>
+  <div class="container">
+    <h1>2025 서울국제유소년대회<br>참가신청서</h1>
+    <form id="signupForm" autocomplete="off">
+      <label for="division">종별</label>
+      <select id="division" name="division" required>
+        <option value="">선택</option>
+        <option value="U12B">U12B (남)</option>
+        <option value="U14B">U14B (남)</option>
+        <option value="U14G">U14G (여)</option>
+        <option value="U16B">U16B (남)</option>
+        <option value="U16G">U16G (여)</option>
+      </select>
 
-    <label for="team">팀명</label>
-    <input type="text" id="team" name="team" required />
+      <label for="team">팀명</label>
+      <input type="text" id="team" name="team" maxlength="24" required />
 
-    <label for="manager">대표자 이름</label>
-    <input type="text" id="manager" name="manager" required />
+      <label for="manager">대표자 이름</label>
+      <input type="text" id="manager" name="manager" maxlength="16" required />
 
-    <label for="contact">대표자 연락처</label>
-    <input type="text" id="contact" name="contact" placeholder="예: 010-1234-5678" required />
+      <label for="contact">대표자 연락처</label>
+      <input type="text" id="contact" name="contact" maxlength="16" placeholder="예: 010-1234-5678" required />
 
-    <label style="margin-top:1.7rem;">참가선수명단 (최대 20명)</label>
-    <table id="playersTable">
-      <thead>
-        <tr>
-          <th>순번</th>
-          <th>이름</th>
-          <th>생년월일</th>
-          <th>등번호</th>
-          <th>포지션</th>
-        </tr>
-      </thead>
-      <tbody>
-        <script>
-          for (let i = 0; i < 20; i++) {
-            document.write(`
-              <tr>
-                <td>${i + 1}</td>
-                <td><input type="text" name="player_name_${i}" maxlength="10" autocomplete="off" /></td>
-                <td><input type="date" name="player_birth_${i}" autocomplete="off" /></td>
-                <td><input type="number" name="player_number_${i}" min="0" max="99" autocomplete="off" /></td>
-                <td>
-                  <select name="player_position_${i}">
-                    <option value="">선택</option>
-                    <option value="G">G</option>
-                    <option value="F">F</option>
-                    <option value="C">C</option>
-                  </select>
-                </td>
-              </tr>
-            `);
-          }
-        </script>
-      </tbody>
-    </table>
+      <label style="margin-top:1.5rem;">참가선수명단 (최소 5명, 최대 20명)</label>
+      <div class="players-table-wrapper">
+        <table id="playersTable">
+          <thead>
+            <tr>
+              <th>순번</th>
+              <th>이름</th>
+              <th>생년월일</th>
+              <th>등번호</th>
+              <th>포지션</th>
+            </tr>
+          </thead>
+          <tbody>
+            <script>
+              for (let i = 0; i < 20; i++) {
+                document.write(`
+                  <tr>
+                    <td>${i + 1}</td>
+                    <td><input type="text" name="player_name_${i}" maxlength="10" autocomplete="off" /></td>
+                    <td><input type="date" name="player_birth_${i}" autocomplete="off" /></td>
+                    <td><input type="number" name="player_number_${i}" min="0" max="99" autocomplete="off" /></td>
+                    <td>
+                      <select name="player_position_${i}">
+                        <option value="">선택</option>
+                        <option value="G">G</option>
+                        <option value="F">F</option>
+                        <option value="C">C</option>
+                      </select>
+                    </td>
+                  </tr>
+                `);
+              }
+            </script>
+          </tbody>
+        </table>
+      </div>
 
-    <p class="notice">
-      ※ 상기 기재 내용이 사실과 다른 점이나 누락된 점이 발견될시 대회 참가가 취소될 수 있습니다. 최대한 자세하게 적어주시기 바랍니다.
-    </p>
+      <p class="notice">
+        ※ 선수 5명 이상(이름, 생년월일, 등번호, 포지션 모두 입력)<br>
+        ※ 잘못 기재시 참가 취소될 수 있습니다. <span style="color:var(--danger);">*미입력 칸은 빨간색 테두리로 표시됩니다.</span>
+      </p>
 
-    <button type="submit">신청서 제출</button>
-    <div class="success" id="successMessage"></div>
-  </form>
-  <div class="admin-link">
-    <a href="admin.html" target="_blank">🔒 관리자 전용 신청 명단 보기</a>
+      <button type="submit">신청서 제출</button>
+      <div class="success" id="successMessage"></div>
+      <div class="error-message" id="errorMessage"></div>
+    </form>
+    <div class="admin-link">
+      <a href="admin.html" target="_blank">🔒 관리자 전용 신청 명단 보기</a>
+    </div>
   </div>
 
   <script>
+    // ✅ 구글 앱스 스크립트 최신 웹앱 URL로 바꿔주세요!
     const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyoV5fojn3SSLj7H-OsTKU8_CgL1GZsAL2BQRfPPtDRhDxBkOuUZ4M2MHKoM-O-1Y-n/exec';
 
-document.getElementById('signupForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  const data = {
-    division: document.getElementById('division').value,
-    team: document.getElementById('team').value,
-    manager: document.getElementById('manager').value,
-    contact: document.getElementById('contact').value,
-    players: []
-  };
-  const rows = document.querySelectorAll('#playersTable tbody tr');
-  rows.forEach((row, i) => {
-    const name = row.querySelector(`[name='player_name_${i}']`).value;
-    const birth = row.querySelector(`[name='player_birth_${i}']`).value;
-    const number = row.querySelector(`[name='player_number_${i}']`).value;
-    const position = row.querySelector(`[name='player_position_${i}']`).value;
-    if (name) {
-      data.players.push({ name, birth, number, position });
-    }
-  });
+      // 메시지/에러 초기화
+      document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+      document.getElementById('successMessage').textContent = '';
+      document.getElementById('errorMessage').textContent = '';
 
-  try {
-    const response = await fetch(SHEET_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      const data = {
+        division: document.getElementById('division').value.trim(),
+        team: document.getElementById('team').value.trim(),
+        manager: document.getElementById('manager').value.trim(),
+        contact: document.getElementById('contact').value.trim(),
+        players: []
+      };
+
+      // 필수값 1차 검증 (종별, 팀명, 대표자, 연락처)
+      if (!data.division || !data.team || !data.manager || !data.contact) {
+        document.getElementById('errorMessage').textContent = '필수 정보를 모두 입력해 주세요.';
+        return;
+      }
+
+      let filledPlayers = 0;
+      let firstErrorMsg = '';
+      const rows = document.querySelectorAll('#playersTable tbody tr');
+      rows.forEach((row, i) => {
+        const nameInput = row.querySelector(`[name='player_name_${i}']`);
+        const birthInput = row.querySelector(`[name='player_birth_${i}']`);
+        const numberInput = row.querySelector(`[name='player_number_${i}']`);
+        const positionInput = row.querySelector(`[name='player_position_${i}']`);
+
+        const name = nameInput.value.trim();
+        const birth = birthInput.value.trim();
+        const number = numberInput.value.trim();
+        const position = positionInput.value.trim();
+
+        // 4개 항목 중 하나라도 입력되면, 모두 채워졌는지 체크
+        if (name || birth || number || position) {
+          let localError = false;
+          if (!name)  { nameInput.classList.add('input-error'); localError = true; }
+          if (!birth) { birthInput.classList.add('input-error'); localError = true; }
+          if (!number){ numberInput.classList.add('input-error'); localError = true; }
+          if (!position) { positionInput.classList.add('input-error'); localError = true; }
+          if (!localError) {
+            data.players.push({ name, birth, number, position });
+            filledPlayers++;
+          } else if (!firstErrorMsg) {
+            firstErrorMsg = `${i + 1}번 선수의 정보가 모두 입력되지 않았습니다.`;
+          }
+        }
+      });
+
+      if (filledPlayers < 5) {
+        if (!firstErrorMsg)
+          firstErrorMsg = '이름, 생년월일, 등번호, 포지션 모두 입력한 선수가 최소 5명 이상이어야 신청이 가능합니다.';
+        document.getElementById('errorMessage').textContent = firstErrorMsg;
+        return;
+      }
+
+      // 성공 시 에러 메시지 초기화
+      document.getElementById('errorMessage').textContent = '';
+
+      try {
+        const response = await fetch(SHEET_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (response.ok) {
+          document.getElementById('successMessage').textContent = '신청이 정상적으로 접수되었습니다!';
+          document.getElementById('successMessage').style.color = '#14a25c';
+          document.getElementById('signupForm').reset();
+        } else {
+          document.getElementById('errorMessage').textContent = '오류가 발생했습니다. 다시 시도해 주세요.';
+        }
+      } catch (error) {
+        document.getElementById('errorMessage').textContent = '네트워크 오류입니다. 관리자에게 문의하세요.';
+      }
     });
-    if (response.ok) {
-      document.getElementById('successMessage').textContent = '신청이 정상적으로 접수되었습니다!';
-      document.getElementById('signupForm').reset();
-    } else {
-      document.getElementById('successMessage').textContent = '오류가 발생했습니다. 다시 시도해 주세요.';
-    }
-  } catch (error) {
-    document.getElementById('successMessage').textContent = '네트워크 오류입니다. 관리자에게 문의하세요.';
-  }
-});
   </script>
 </body>
 </html>
