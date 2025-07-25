@@ -22,7 +22,7 @@
 </head>
 <body>
   <h1>2025 서울국제유소년대회 참가신청서</h1>
-  <form id="signupForm">
+   <form id="signupForm">
     <label for="division">종별</label>
     <select id="division" name="division" required>
       <option value="">선택</option>
@@ -82,6 +82,55 @@
     <button type="submit">신청서 제출</button>
     <div class="success" id="successMessage"></div>
   </form>
+  <div class="admin-link">
+    <a href="admin.html" target="_blank">🔒 관리자 전용 신청 명단 보기</a>
+  </div>
+
+  <script>
+    // 반드시 본인 Apps Script 웹앱 URL로 변경!
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz7vXeC2DDLI9R-Nmf_6cXJwzC2Nm9uDe_HNDVxJHQHVnGuMrAwwNOqS-G3vOiF1QdZ/exec';
+
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const data = {
+        division: document.getElementById('division').value,
+        team: document.getElementById('team').value,
+        manager: document.getElementById('manager').value,
+        contact: document.getElementById('contact').value,
+        players: []
+      };
+
+      const rows = document.querySelectorAll('#playersTable tbody tr');
+      rows.forEach((row, i) => {
+        const name = row.querySelector(`[name='player_name_${i}']`).value;
+        const birth = row.querySelector(`[name='player_birth_${i}']`).value;
+        const number = row.querySelector(`[name='player_number_${i}']`).value;
+        const position = row.querySelector(`[name='player_position_${i}']`).value;
+        if (name) {
+          data.players.push({ name, birth, number, position });
+        }
+      });
+
+      try {
+        const response = await fetch(SHEET_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          document.getElementById('successMessage').textContent = '신청이 정상적으로 접수되었습니다!';
+          document.getElementById('signupForm').reset();
+        } else {
+          document.getElementById('successMessage').textContent = '오류가 발생했습니다. 다시 시도해 주세요.';
+        }
+      } catch (error) {
+        document.getElementById('successMessage').textContent = '네트워크 오류입니다. 관리자에게 문의하세요.';
+      }
+    });
+  </script>
+
 
   <div class="admin-link">
     <a href="admin.html" target="_blank">🔒 관리자 전용 신청 명단 보기</a>
