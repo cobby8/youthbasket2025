@@ -2,10 +2,176 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>관리자페이지</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025 서울국제유소년대회 관리자페이지</title>
+  <style>
+    body { font-family: sans-serif; background: #f3f3f3; padding: 2rem; max-width: 960px; margin: auto; }
+    h1, h2 { text-align: center; }
+    input[type="password"], select { padding: 0.5rem; font-size: 1rem; margin-bottom: 1rem; width: 100%; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; overflow-x: auto; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: center; font-size: 0.95rem; }
+    th { background-color: #eee; }
+    .hidden { display: none; }
+    .error { color: red; margin-top: 1rem; }
+    .details { background-color: #fafafa; font-size: 0.9rem; text-align: left; padding: 0.5rem; }
+    button.export, button.print { margin: 0.5rem 0.5rem 1rem 0; padding: 0.5rem 1rem; font-size: 0.9rem; }
+    #playerSummaryTable { margin-top: 2rem; border: 2px solid #999; }
+    @media print { button, #auth, #filter { display: none !important; } body { background: white; padding: 0; } }
+  </style>
 </head>
 <body>
-  <h1>2025 서울국제유소년대회 관리자페이지</h1>
-  <p>이 페이지는 관리자용 페이지입니다. 실제 HTML 코드는 admin.html에서 구현되어야 합니다.</p>
+  <h1>🔒 2025 서울국제유소년대회 신청 명단</h1>
+  <div id="auth">
+    <input type="password" id="adminPassword" placeholder="관리자 비밀번호 입력">
+    <button onclick="verifyPassword()">확인</button>
+    <div id="error" class="error"></div>
+  </div>
+
+  <div id="dataSection" class="hidden">
+    <h2>신청 내역</h2>
+    <div id="filter">
+      <label for="divisionFilter">종별 필터:</label>
+      <select id="divisionFilter" onchange="filterByDivision()">
+        <option value="">전체</option>
+        <option value="U12B">U12B (남)</option>
+        <option value="U14B">U14B (남)</option>
+        <option value="U14G">U14G (여)</option>
+        <option value="U16B">U16B (남)</option>
+        <option value="U16G">U16G (여)</option>
+      </select>
+    </div>
+    <button class="export" onclick="exportToCSV()">📥 CSV 다운로드</button>
+    <button class="print" onclick="window.print()">🖨️ 인쇄</button>
+    <table>
+      <thead>
+        <tr>
+          <th>종별</th><th>팀명</th><th>대표자</th><th>연락처</th><th>선수 인원</th><th>세부 명단</th>
+        </tr>
+      </thead>
+      <tbody id="teamList"></tbody>
+    </table>
+
+    <h2>선수명단 요약 표</h2>
+    <table id="playerSummaryTable">
+      <thead>
+        <tr><th>종별</th><th>팀명</th><th>이름</th><th>생년월일</th><th>등번호</th><th>포지션</th></tr>
+      </thead>
+      <tbody id="playerSummary"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "admin123";
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbz7vXeC2DDLI9R-Nmf_6cXJwzC2Nm9uDe_HNDVxJHQHVnGuMrAwwNOqS-G3vOiF1QdZ/exec";
+    let originalData = [];
+
+    async function fetchDataFromSheet() {
+      try {
+        const res = await fetch(SHEET_URL);
+        const json = await res.json();
+        return json.data || [];
+      } catch (e) {
+        console.error("시트 데이터 로드 실패:", e);
+        return [];
+      }
+    }
+
+    async function verifyPassword() {
+      const input = document.getElementById("adminPassword").value;
+      const error = document.getElementById("error");
+      if (input === ADMIN_PASSWORD) {
+        document.getElementById("auth").style.display = "none";
+        document.getElementById("dataSection").classList.remove("hidden");
+        const data = await fetchDataFromSheet();
+        originalData = data;
+        loadData(data);
+        loadPlayerSummary(data);
+      } else {
+        error.textContent = "비밀번호가 올바르지 않습니다.";
+      }
+    }
+
+    function calculateAge(birthStr) {
+      const today = new Date();
+      const birthDate = new Date(birthStr);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+
+    function loadData(dataArray) {
+      const tbody = document.getElementById("teamList");
+      tbody.innerHTML = "";
+      dataArray.forEach(entry => {
+        const row = document.createElement("tr");
+        const players = JSON.parse(entry.players || '[]');
+        const details = players.map((p, i) => `
+          <div class='details'>
+            ${i + 1}. 이름: ${p.name}, 생년월일: ${p.birth}, 번호: ${p.number}, 포지션: ${p.position}
+          </div>`).join("");
+        row.innerHTML = `
+          <td>${entry.division}</td>
+          <td>${entry.team}</td>
+          <td>${entry.manager}</td>
+          <td>${entry.contact}</td>
+          <td>${players.length}</td>
+          <td>${details}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function loadPlayerSummary(dataArray) {
+      const summaryBody = document.getElementById("playerSummary");
+      summaryBody.innerHTML = "";
+      const seen = new Set();
+      dataArray.forEach(entry => {
+        const players = JSON.parse(entry.players || '[]');
+        players.forEach(p => {
+          const uniqueKey = `${entry.team}-${p.name}-${p.birth}`;
+          const row = document.createElement("tr");
+          const age = calculateAge(p.birth);
+          row.innerHTML = `
+            <td>${entry.division}</td>
+            <td>${entry.team}</td>
+            <td>${p.name}${seen.has(uniqueKey) ? ' ⚠️' : ''}</td>
+            <td>${p.birth} (${age}세)</td>
+            <td>${p.number}</td>
+            <td>${p.position}</td>
+          `;
+          summaryBody.appendChild(row);
+          seen.add(uniqueKey);
+        });
+      });
+    }
+
+    function filterByDivision() {
+      const selected = document.getElementById("divisionFilter").value;
+      const filtered = selected ? originalData.filter(item => item.division === selected) : originalData;
+      loadData(filtered);
+      loadPlayerSummary(filtered);
+    }
+
+    function exportToCSV() {
+      let csv = "종별,팀명,대표자,연락처,선수 이름,생년월일,등번호,포지션\n";
+      originalData.forEach(entry => {
+        const players = JSON.parse(entry.players || '[]');
+        players.forEach(p => {
+          csv += `${entry.division},${entry.team},${entry.manager},${entry.contact},${p.name},${p.birth},${p.number},${p.position}\n`;
+        });
+      });
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "신청명단.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 </body>
 </html>
