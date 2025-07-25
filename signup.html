@@ -5,19 +5,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2025 서울국제유소년대회 참가신청서</title>
   <style>
-    body { font-family: sans-serif; background: #f9f9f9; padding: 2rem; max-width: 800px; margin: auto; }
-    h1 { text-align: center; color: #333; }
-    label { display: block; margin: 1rem 0 0.3rem; }
-    input, select { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
-    button { margin-top: 1.5rem; padding: 0.8rem 1.2rem; font-size: 1rem; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background-color: #45a049; }
-    .success { margin-top: 1rem; color: green; }
-    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: center; }
-    th { background-color: #eee; }
-    .admin-link { text-align: right; margin-top: 2rem; }
-    .admin-link a { color: #333; text-decoration: none; font-size: 0.9rem; }
-    .notice { margin-top: 2rem; font-size: 0.9rem; color: #444; }
+    body {
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+      background: #f8fbfd;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      color: #222;
+    }
+    h1 {
+      text-align: center;
+      color: #1769ff;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin: 1.5rem 0 0.3rem;
+      font-weight: 600;
+    }
+    input, select {
+      padding: 0.7rem 1rem;
+      border: 1.5px solid #e3e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #fff;
+      transition: border 0.2s;
+      box-sizing: border-box;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: #1769ff;
+      background: #f4f8ff;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 0.9rem 0;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 700;
+      background-color: #1769ff;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #1769ff20;
+      letter-spacing: 0.1em;
+    }
+    button:hover {
+      background-color: #1253c8;
+    }
+    .success {
+      margin-top: 1.5rem;
+      color: #14a25c;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1rem;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 1px 10px #0e25502a;
+      overflow: hidden;
+    }
+    th, td {
+      border-bottom: 1px solid #e3e8f0;
+      padding: 0.4rem 0.3rem;
+      text-align: center;
+      font-size: 0.97rem;
+    }
+    th {
+      background-color: #f4f8ff;
+      color: #1769ff;
+      font-weight: 700;
+      border-bottom: 2.5px solid #1769ff50;
+    }
+    tr:last-child td { border-bottom: none; }
+    td:first-child, th:first-child {
+      width: 44px; min-width: 44px;
+    }
+    td:nth-child(2), th:nth-child(2) {
+      width: 19%;
+    }
+    td:nth-child(3), th:nth-child(3) {
+      width: 21%;
+    }
+    td:nth-child(4), th:nth-child(4) {
+      width: 14%;
+    }
+    td:nth-child(5), th:nth-child(5) {
+      width: 15%;
+    }
+    input[type='date'] {
+      min-width: 105px;
+    }
+    input[type='number'] {
+      min-width: 50px;
+      text-align: center;
+    }
+    select {
+      min-width: 70px;
+      background: #f7faff;
+    }
+    .notice {
+      margin-top: 2rem;
+      font-size: 0.96rem;
+      color: #1556af;
+      text-align: center;
+      background: #e6f1fe;
+      border-radius: 10px;
+      padding: 1rem 0.5rem;
+    }
+    .admin-link {
+      text-align: right;
+      margin-top: 2rem;
+    }
+    .admin-link a {
+      color: #1769ff;
+      text-decoration: underline;
+      font-size: 1rem;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
@@ -42,7 +154,7 @@
     <label for="contact">대표자 연락처</label>
     <input type="text" id="contact" name="contact" placeholder="예: 010-1234-5678" required />
 
-    <label>참가선수명단 (최대 20명)</label>
+    <label style="margin-top:1.7rem;">참가선수명단 (최대 20명)</label>
     <table id="playersTable">
       <thead>
         <tr>
@@ -59,9 +171,9 @@
             document.write(`
               <tr>
                 <td>${i + 1}</td>
-                <td><input type="text" name="player_name_${i}" /></td>
-                <td><input type="date" name="player_birth_${i}" /></td>
-                <td><input type="number" name="player_number_${i}" /></td>
+                <td><input type="text" name="player_name_${i}" maxlength="10" autocomplete="off" /></td>
+                <td><input type="date" name="player_birth_${i}" autocomplete="off" /></td>
+                <td><input type="number" name="player_number_${i}" min="0" max="99" autocomplete="off" /></td>
                 <td>
                   <select name="player_position_${i}">
                     <option value="">선택</option>
@@ -89,7 +201,8 @@
   </div>
 
   <script>
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz7vXeC2DDLI9R-Nmf_6cXJwzC2Nm9uDe_HNDVxJHQHVnGuMrAwwNOqS-G3vOiF1QdZ/exec'; // ← 본인 웹앱 URL
+    // Google Sheet 연동용 Web App URL로 변경 필요!
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz7vXeC2DDLI9R-Nmf_6cXJwzC2Nm9uDe_HNDVxJHQHVnGuMrAwwNOqS-G3vOiF1QdZ/exec';
 
     document.getElementById('signupForm').addEventListener('submit', async function (e) {
       e.preventDefault();
