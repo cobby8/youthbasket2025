@@ -39,20 +39,36 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       margin: 2.2rem 1rem;
-      padding: 2.5rem 2.3rem 2.1rem 2.3rem;
+      padding: 2.6rem 2.3rem 2.1rem 2.3rem;
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
       position: relative;
       transition: box-shadow 0.22s;
     }
+    .logo-main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo-main img {
+      width: 108px;
+      max-width: 37vw;
+      height: auto;
+      display: block;
+      background: none;
+      border-radius: 17px;
+      box-shadow: 0 4px 20px #20335d13;
+    }
     h1 {
       color: var(--blue);
-      font-size: 2.1rem;
+      font-size: 2.04rem;
       font-weight: 700;
       margin: 0 0 2.1rem 0;
       text-align: left;
       letter-spacing: -1.4px;
+      text-shadow: 0 2px 8px #1769ff12;
     }
     label {
       font-weight: 600;
@@ -168,16 +184,40 @@
     .admin-link a:hover {
       color: #0b41a8;
     }
+    /* 하단 가로 로고 */
+    .logo-bottom-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2.8rem;
+      margin-bottom: -0.8rem;
+    }
+    .logo-bottom-wrap img {
+      max-width: 280px;
+      width: 87vw;
+      min-width: 120px;
+      height: auto;
+      opacity: 0.88;
+      filter: drop-shadow(0 2px 8px #1769ff18);
+      margin: 0 auto;
+      display: block;
+    }
     @media (max-width: 600px) {
       .container { padding: 1.1rem 0.5rem 1.2rem 0.5rem; }
-      h1 { font-size: 1.32rem; margin-bottom: 1.2rem; }
-      .notice { font-size: 0.95rem; }
+      h1 { font-size: 1.28rem; margin-bottom: 1.1rem; }
+      .notice { font-size: 0.92rem; }
       table, th, td { font-size: 0.93rem; }
+      .logo-main img { width: 74px; }
+      .logo-bottom-wrap img { max-width: 160px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- 상단 심볼 로고 -->
+    <div class="logo-main">
+      <img src="/SYIBS-심볼타입(배경무).png" alt="SYIBS 심볼 로고" />
+    </div>
     <h1>2025 서울국제유소년대회<br>참가신청서</h1>
     <form id="signupForm" autocomplete="off">
       <label for="division">종별</label>
@@ -245,6 +285,12 @@
       <div class="success" id="successMessage"></div>
       <div class="error-message" id="errorMessage"></div>
     </form>
+
+    <!-- 하단 가로 로고 -->
+    <div class="logo-bottom-wrap">
+      <img src="/SYIBS-로고타입(배경무).png" alt="SYIBS 가로 로고" />
+    </div>
+
     <div class="admin-link">
       <a href="admin.html" target="_blank">🔒 관리자 전용 신청 명단 보기</a>
     </div>
@@ -257,7 +303,7 @@
     document.getElementById('signupForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      // 메시지/에러 초기화
+      // 에러 초기화
       document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
       document.getElementById('successMessage').textContent = '';
       document.getElementById('errorMessage').textContent = '';
@@ -270,7 +316,7 @@
         players: []
       };
 
-      // 필수값 1차 검증 (종별, 팀명, 대표자, 연락처)
+      // 필수값 1차 검증
       if (!data.division || !data.team || !data.manager || !data.contact) {
         document.getElementById('errorMessage').textContent = '필수 정보를 모두 입력해 주세요.';
         return;
